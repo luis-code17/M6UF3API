@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const seriesRoutes = require('./api/series'); // Importamos las rutas
+const usersRoutes = require('./api/users'); // Importamos las rutas
+const reviewsRoutes = require('./api/reviews'); // Importamos las rutas
 
 const app = express();
 const port = process.env.PORT || 3030;
@@ -15,7 +17,9 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   .catch(err => console.error('❌ Error connecting to MongoDB:', err));
 
 // Usar las rutas
-app.use('/allSeries', seriesRoutes);
+app.use('/series', seriesRoutes);
+app.use('/users', usersRoutes);
+app.use('/reviews', reviewsRoutes);
 
 // Iniciar servidor
 app.listen(port, () => {
