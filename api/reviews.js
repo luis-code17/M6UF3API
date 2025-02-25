@@ -91,4 +91,40 @@ router.post('/', async (req, res) => {
   }
 });
 
+//obtener por el id del usuario (GET /reviews/byUser?user_id=123)
+router.get('/byUser', async (req, res) => {
+  try {
+    const { user_id } = req.query;
+
+    if (!user_id) {
+      return res.status(400).json({ message: 'user_id is required' });
+    }
+
+    const reviews = await Review.find({ user_id });
+
+    res.status(200).json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching reviews', error: err.message });
+  }
+}
+);
+
+//obtener por el id de la serie (GET /reviews/bySerie?series_id=123)
+router.get('/bySerie', async (req, res) => {
+  try {
+    const { series_id } = req.query;
+
+    if (!series_id) {
+      return res.status(400).json({ message: 'series_id is required' });
+    }
+
+    const reviews = await Review.find({ series_id });
+
+    res.status(200).json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching reviews', error: err.message });
+  }
+}
+);
+
 module.exports = router;
