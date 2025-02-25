@@ -13,6 +13,22 @@ router.get('/', async (req, res) => {
   }
 });
 
+//Obtener por email (GET /users/byEmail?email=)
+router.get('/byEmail', async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    const user = await User.findOne({ email });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching user', error: err.message });
+  }
+});
+
 
 // Añadir una serie (POST /users)
 router.post('/', async (req, res) => {
