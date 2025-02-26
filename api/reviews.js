@@ -44,8 +44,8 @@ router.post('/', async (req, res) => {
     const { user_id, series_id, comment, score } = req.body;
 
     // Validación de campos obligatorios
-    if ( score === undefined || !comment || !user_id || !series_id) {
-      return res.status(400).json({ message: 'All fields ( score, comment, user_id, series_id) are required' });
+    if (score === undefined || !comment || !user_id || !series_id) {
+      return res.status(400).json({ message: 'All fields (score, comment, user_id, series_id) are required' });
     }
 
     // Asignar valores por defecto
@@ -60,19 +60,19 @@ router.post('/', async (req, res) => {
       series_id
     });
 
-    await review.save();
+    const savedReview = await review.save(); 
 
     // Añadir la review a la serie
     const updatedSerie = await Serie.findByIdAndUpdate(
       series_id,
-      { $push: { reviews: _id } },
+      { $push: { reviews: savedReview._id } },
       { new: true }
     );
 
     // Añadir la review al usuario
     const updatedUser = await User.findByIdAndUpdate(
       user_id,
-      { $push: { reviews: _id } },
+      { $push: { reviews: savedReview._id } }, 
       { new: true }
     );
 
@@ -84,11 +84,12 @@ router.post('/', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(201).json({ message: 'Review created successfully', review });
+    res.status(201).json({ message: 'Review created successfully', review: savedReview });
   } catch (err) {
     res.status(500).json({ message: 'Error creating review', error: err.message });
   }
 });
+
 
 //obtener por el id del usuario (GET /reviews/byUser?user_id=123)
 router.get('/byUser', async (req, res) => {
