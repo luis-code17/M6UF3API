@@ -33,15 +33,14 @@ router.get('/byEmail', async (req, res) => {
 // Añadir una serie (POST /users)
 router.post('/', async (req, res) => {
   try {
-    const { _id, name, email, password, reviews } = req.body;
+    const { name, email, password, reviews } = req.body;
 
     // Validación de campos obligatorios
-    if (!_id || !name || !email || !password) {
-      return res.status(400).json({ message: 'All fields (_id, name, email, password) are required.' });
+    if ( !name || !email || !password) {
+      return res.status(400).json({ message: 'All fields (name, email, password) are required.' });
     }
 
     const user = new User({
-      _id,
       name,
       email,
       password,

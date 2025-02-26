@@ -39,17 +39,16 @@ router.get('/byDate', async (req, res) => {
 // Añadir una serie (POST /series)
 router.post('/', async (req, res) => {
   try {
-    const { _id, name, average_score, reviews } = req.body;
+    const { name, average_score, reviews } = req.body;
 
     // Validación de campos obligatorios
-    if (!_id || !name || average_score === undefined) {
-      return res.status(400).json({ message: 'All fields (_id, name, average_score) are required' });
+    if ( !name || average_score === undefined) {
+      return res.status(400).json({ message: 'All fields ( name, average_score) are required' });
     }
 
     // Asignar valores por defecto
     const release_date = req.body.release_date || new Date().toISOString().split('T')[0];
     const serie = new Serie({
-      _id,
       name,
       release_date,
       average_score,

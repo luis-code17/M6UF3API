@@ -41,11 +41,11 @@ router.get('/byDate', async (req, res) => {
 // Añadir una review (POST /review)
 router.post('/', async (req, res) => {
   try {
-    const { _id, user_id, series_id, comment, score } = req.body;
+    const { user_id, series_id, comment, score } = req.body;
 
     // Validación de campos obligatorios
-    if (!_id || score === undefined || !comment || !user_id || !series_id) {
-      return res.status(400).json({ message: 'All fields (_id, score, comment, user_id, series_id) are required' });
+    if ( score === undefined || !comment || !user_id || !series_id) {
+      return res.status(400).json({ message: 'All fields ( score, comment, user_id, series_id) are required' });
     }
 
     // Asignar valores por defecto
@@ -53,7 +53,6 @@ router.post('/', async (req, res) => {
 
     // Crear la review
     const review = new Review({
-      _id,
       date,
       comment,
       score,

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 // Definir el esquema de la colección "series"
 const serieSchema = new mongoose.Schema({
-  _id: String, // ID de la serie
   name: { type: String, required: true },
   release_date: { type: String, required: true },
   average_score: { type: Number, required: true },
